@@ -19,7 +19,7 @@ from adapt.intent import IntentBuilder
 
 from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
-import mcp_status
+import requests
 __author__ = 'orsala'
 
 LOGGER = getLogger(__name__)
@@ -29,6 +29,14 @@ class McpStatusSkill(MycroftSkill):
     def __init__(self):
         super(McpStatusSkill, self).__init__(name="McpStatusSkill")
 
+    def get_mcp_waitings_status():
+
+        data = requests.get("http://10.3.36.199/programs/waitings")
+        if data.status_code == 200:
+            return "There are not waitings"
+        else:
+            return "There are some waitings"
+
     def initialize(self):
         tell_me_the_mcp_status = IntentBuilder("TellMeTheMCPStatus"). \
             require("TellMeTheMCPStatusword").build()
@@ -36,7 +44,7 @@ class McpStatusSkill(MycroftSkill):
 
 
     def handle_tell_me_the_mcp_status_intent(self, message):
-        self.speak_dialog(mcp_status.get_mcp_waitings_status())
+        self.speak_dialog(self.get_mcp_waitings_status())
 
 
 
