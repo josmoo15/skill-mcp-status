@@ -29,7 +29,7 @@ class McpStatusSkill(MycroftSkill):
     def __init__(self):
         super(McpStatusSkill, self).__init__(name="McpStatusSkill")
 
-    def get_mcp_waitings_status():
+    def get_mcp_waitings_status(self):
 
         data = requests.get("http://10.3.36.199/programs/waitings")
         if data.status_code == 200:
@@ -38,13 +38,14 @@ class McpStatusSkill(MycroftSkill):
             return "There are some waitings"
 
     def initialize(self):
-        tell_me_the_mcp_status = IntentBuilder("TellMeTheMCPStatus"). \
-            require("TellMeTheMCPStatusword").build()
-        self.register_intent(tell_me_the_mcp_status, self.handle_tell_me_the_mcp_status_intent)
+        mcp_status = IntentBuilder("McpStatus"). \
+            require("McpStatusword").build()
+        self.register_intent(mcp_status, self.handle_mcp_status_intent)
 
 
-    def handle_tell_me_the_mcp_status_intent(self, message):
-        self.speak_dialog(self.get_mcp_waitings_status())
+    def handle_mcp_status_intent(self, message):
+        print(self.get_mcp_waitings_status())
+        self.speak_dialog("MCP Status")
 
 
 
