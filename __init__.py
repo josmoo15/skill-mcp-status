@@ -19,11 +19,7 @@ from adapt.intent import IntentBuilder
 
 from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
-from model import mcp_status
-
-
-
-
+import mcp_status
 __author__ = 'orsala'
 
 LOGGER = getLogger(__name__)
